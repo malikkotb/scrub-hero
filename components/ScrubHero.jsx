@@ -12,6 +12,7 @@ export default function ScrubHero() {
   const processRef = useRef(null);
   const lineRef = useRef(null);
   const mainPRef = useRef(null);
+  const spanRef = useRef(null);
 
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -23,7 +24,7 @@ export default function ScrubHero() {
         start: "top 20%",
         end: "bottom center",
         toggleActions: "play reverse restart reverse",
-        // scrub: 1,
+        pin: false,
       },
       defaults: {
         ease: "power3.out",
@@ -58,8 +59,7 @@ export default function ScrubHero() {
         start: "top 30%",
         end: "40% top",
         toggleActions: "play reverse restart reverse",
-        markers: true,
-        scrub: 1,
+        scrub: 2,
       },
       defaults: {
         ease: "power3.out",
@@ -68,21 +68,22 @@ export default function ScrubHero() {
     });
 
     scrubTL
-      .to(lineRef.current, {
-        width: "100%",
+      .from(lineRef.current, {
+        scaleY: 0,
       })
-      .to(
-        "span",
+      .from(
+        spanRef.current,
         {
-          opacity: 1,
+          x: 0,
+          yPercent: 0,
         },
-        "-=0.5"
+        "<"
       );
   });
 
   return (
     <>
-      {/* <section></section> */}
+      <section></section>
       <section ref={primarySectionRef} className="primary">
         <aside>
           <div className="mask">
@@ -102,7 +103,7 @@ export default function ScrubHero() {
         </main>
 
         <div ref={lineRef} className="line"></div>
-        <span>diabolical</span>
+        <span ref={spanRef}>diabolical</span>
       </section>
       <section></section>
     </>
